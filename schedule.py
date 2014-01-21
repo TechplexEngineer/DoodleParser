@@ -39,11 +39,16 @@ class Response:
 		for day in self.days:
 			out.append("".join(sorted("".join(set(day)))))
 		self.days = list(set(out))
-		# out = []
-		# for day1 in self.days:
-		# 	for day2 in self.days:
-		# 		if day1 in day2:
-		# 			out.append(day1)
+
+		out = []
+		for day1 in self.days:
+			for day2 in self.days:
+				for char in day1:
+					if char in day2:
+						break
+				# if day1 in day2 and day1 != day2:
+				out.append(day1)
+		self.days = list(set(out))
 		# print "o2", out
 		return self
 		# for i in range(len(self.days)):
@@ -62,8 +67,8 @@ canNotAttend = []
 # create respnse objects based on the csv data
 for res in my_data[6:]:
 	if 'OK' in res[1:]:
-		responses.append(Response(OK2Letter(res[1:])))# res[0], 
-	else:
+		responses.append(Response(OK2Letter(res[1:])))
+	elif res[0] != 'Count':
 		canNotAttend.append(res[0])
 
 
@@ -84,7 +89,7 @@ for resp in responses[1:]:
 days = out.days
 # print days
 daysbylen = sorted(days, key=len)
-print daysbylen[:4]
+print daysbylen, len(daysbylen)
 
 # minlenday = out.days[0]
 # for day in out.days[1:]:
